@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "run": "pnpm run dev"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
