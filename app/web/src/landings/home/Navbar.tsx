@@ -1,0 +1,17 @@
+import '../../style.css'
+
+export default function Navbar() {
+    return (
+        <nav className='fixed top-0 left-0 w-full border-b border-[#1c1b1b]'>
+            <div className="flex justify-between items-center px-[4rem] h-[5rem] bg-[#05050566] text-[#FFFFFF] backdrop-blur-xl">
+                <div className="home-nav-container">
+                    <h1 className="text-2xl primary-font font-extrabold tracking-tighter">Face Time</h1>
+                </div>
+                <div className="home-nav-container font-medium">
+                    <button className='p-2 mx-2 hover:text-[#3739B8] transitions-colors duration-300 cursor-pointer'>Login</button>
+                    <button className='py-[12px] px-[24px] text-white text-base semibold font-semibold mx-2 bg-[#3739B8] rounded-full hover:bg-[#BCBFE3] hover:text-[#0e0e0e] transitions-colors duration-300 cursor-pointer'>Sign Up</button>
+                </div>
+            </div>
+        </nav>
+    )
+}
