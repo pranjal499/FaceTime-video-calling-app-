@@ -7,7 +7,7 @@ export default function Navbar() {
                 <div className="home-nav-container">
                     <h1 className="text-2xl primary-font font-extrabold tracking-tighter">Face Time</h1>
                 </div>
-                <div className="home-van-container font-medium">
+                <div className="home-nav-container font-medium">
                     <button className='p-2 mx-2 hover:text-[#3739B8] transitions-colors duration-300 cursor-pointer'>Login</button>
                     <button className='py-[12px] px-[24px] text-white text-base semibold font-semibold mx-2 bg-[#3739B8] rounded-full hover:bg-[#BCBFE3] hover:text-[#0e0e0e] transitions-colors duration-300 cursor-pointer'>Sign Up</button>
                 </div>
