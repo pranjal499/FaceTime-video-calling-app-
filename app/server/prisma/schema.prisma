@@ -12,7 +12,7 @@ datasource db {
   provider = "postgresql"
 }
 
-enum MeetStatus {
+enum MeetingStatus {
   SCHEDULED
   LIVE 
   ENDED
@@ -33,20 +33,20 @@ model User {
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt  @map("updated_at")
 
-  hostedMeets       Meet[]
-  participations    MeetParticipant[]
+  hostedMeetings       Meeting[]
+  participations    MeetingParticipant[]
 
   @@map("users")
 }
 
-model Meet {
+model Meeting {
   id            String      @id @default(uuid()) @db.Uuid
   hostId        String      @db.Uuid  @map("host_id")
 
   title         String?
   scheduledAt   DateTime?   @map("scheduled_at")
 
-  status        MeetStatus  @default(SCHEDULED)
+  status        MeetingStatus  @default(SCHEDULED)
 
   startedAt     DateTime?   @map("started_at")
   endedAt       DateTime?   @map("ended_at")
@@ -55,17 +55,17 @@ model Meet {
   updatedAt     DateTime    @updatedAt @map("updated_at")
 
   host          User        @relation(fields: [hostId], references: [id])
-  participants  MeetParticipant[]
+  participants  MeetingParticipant[]
   
   @@index([hostId])
   @@index([scheduledAt])
   @@index([status])
-  @@map("meets")
+  @@map("meetings")
 }
 
-model MeetParticipant {
+model MeetingParticipant {
   id          String            @id @default(uuid())  @db.Uuid
-  meetId      String            @db.Uuid @map("meet_id")  
+  meetingId      String            @db.Uuid @map("meeting_id")  
   userId      String            @db.Uuid  @map("user_id")
 
   role        ParticipantRole   @default(PARTICIPANT)
@@ -76,11 +76,11 @@ model MeetParticipant {
   createdAt   DateTime          @default(now()) @map("created_at")
   updatedAt   DateTime          @updatedAt  @map("updated_at")
 
-  meet        Meet              @relation(fields: [meetId], references: [id], onDelete: Cascade)
+  meeting        Meeting              @relation(fields: [meetingId], references: [id], onDelete: Cascade)
   user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([meetId, userId])
+  @@unique([meetingId, userId])
   @@index([userId])
-  @@map("meet_participants")
+  @@map("meeting_participants")
 }
 
