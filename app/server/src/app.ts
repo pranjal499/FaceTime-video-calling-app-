@@ -23,7 +23,7 @@ io.on('connection_error', (err) => {
 });
 
 app.use('/user', userRouter);
-app.use('/meet', meetingRouter);
+app.use('/meeting', meetingRouter);
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

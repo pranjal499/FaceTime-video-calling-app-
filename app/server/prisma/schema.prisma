@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  LIVE 
+  ENDED
+  CANCELLED
+}
+
+enum ParticipantRole {
+  HOST 
+  PARTICIPANT
+}
+
+model User {
+  id                String    @id   @db.Uuid
+  username          String    @unique
+  displayName       String    @map("display_name")
+  avatarUrl         String?   @map("avatar_url")
+
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt  @map("updated_at")
+
+  hostedMeetings       Meeting[]
+  participations    MeetingParticipant[]
+
+  @@map("users")
+}
+
+model Meeting {
+  id            String      @id @default(uuid()) @db.Uuid
+  hostId        String      @db.Uuid  @map("host_id")
+
+  title         String?
+  scheduledAt   DateTime?   @map("scheduled_at")
+
+  status        MeetingStatus  @default(SCHEDULED)
+
+  startedAt     DateTime?   @map("started_at")
+  endedAt       DateTime?   @map("ended_at")
+
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  host          User        @relation(fields: [hostId], references: [id])
+  participants  MeetingParticipant[]
+  
+  @@index([hostId])
+  @@index([scheduledAt])
+  @@index([status])
+  @@map("meetings")
+}
+
+model MeetingParticipant {
+  id          String            @id @default(uuid())  @db.Uuid
+  meetingId      String            @db.Uuid @map("meeting_id")  
+  userId      String            @db.Uuid  @map("user_id")
+
+  role        ParticipantRole   @default(PARTICIPANT)
+
+  joinedAt    DateTime?         @map("joined_at")
+  leftAt      DateTime?         @map("left_at")
+
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt  @map("updated_at")
+
+  meeting        Meeting              @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, userId])
+  @@index([userId])
+  @@map("meeting_participants")
+}
+
