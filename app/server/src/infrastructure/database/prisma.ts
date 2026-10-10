@@ -6,4 +6,6 @@ const connectionString = process.env.DIRECT_URL;
 if (!connectionString) throw new Error('DATABASE url not defined');
 
 const adapter = new PrismaPg({connectionString});
-export const prisma = new PrismaClient({adapter});
+const client = new PrismaClient({adapter});
+
+export default client;

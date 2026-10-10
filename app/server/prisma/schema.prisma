@@ -43,7 +43,7 @@ model Meeting {
   id            String      @id @default(uuid()) @db.Uuid
   hostId        String      @db.Uuid  @map("host_id")
 
-  title         String?
+  title         String
   scheduledAt   DateTime?   @map("scheduled_at")
 
   status        MeetingStatus  @default(SCHEDULED)
@@ -65,7 +65,7 @@ model Meeting {
 
 model MeetingParticipant {
   id          String            @id @default(uuid())  @db.Uuid
-  meetingId      String            @db.Uuid @map("meeting_id")  
+  meetingId   String            @db.Uuid @map("meeting_id")  
   userId      String            @db.Uuid  @map("user_id")
 
   role        ParticipantRole   @default(PARTICIPANT)
