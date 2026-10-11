@@ -1,18 +1,29 @@
 import client from '../../infrastructure/database/prisma.js';
 import { MeetingStatus } from '../../generated/prisma/enums.js';
 
-export default class MeetingRepository {
+export interface MeetingPayload {
+    hostId: string,
+    title: string,
+    scheduledAt: Date,
+    status: MeetingStatus,
+    startedAt: Date,
+    endedAt: Date,
+}
+
+export class MeetingRepository {
 
     async create(data: {
     hostId: string,
     title?: string,
-    scheduledAt?: Date
+    scheduledAt?: Date,
+    status: MeetingStatus
   }) {
     return await client.meeting.create({
       data: {
         hostId: data.hostId,
         title: data.title ?? null,
         scheduledAt: data.scheduledAt ?? null,
+        status: data.status
       },
     });
   }
