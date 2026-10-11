@@ -1,6 +1,5 @@
 import type {Request, Response} from 'express';
-import client from '../../infrastructure/database/prisma.ts'
-import {MeetingRepository, MeetingPayload} from './meeting.repository.ts'
+import {MeetingRepository} from './meeting.repository.ts';
 
 const meetRepository = new MeetingRepository;
 
