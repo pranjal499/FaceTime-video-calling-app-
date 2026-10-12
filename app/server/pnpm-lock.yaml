@@ -23,6 +23,9 @@ importers:
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@26.6.3)(typescript@7.0.2)
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
       '@prisma/adapter-pg':
         specifier: ^7.10.0
@@ -1518,6 +1521,9 @@ packages:
   zeptomatch@2.1.0:
     resolution: {integrity: sha512-KiGErG2J0G82LSpniV0CtIzjlJ10E04j02VOudJsPyPwNZgGnRKQy7I1R7GMyg/QswnE4l7ohSGrQbQbjXPPDA==}
 
+  zod@4.6.5:
+    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
+
 snapshots:
 
   '@babel/helper-string-parser@7.29.7':
@@ -2930,3 +2936,5 @@ snapshots:
     dependencies:
       grammex: 3.1.13
       graphmatch: 1.1.1
+
+  zod@4.6.5: {}

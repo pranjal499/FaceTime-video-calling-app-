@@ -6,7 +6,7 @@ const meetRepository = new MeetingRepository;
 export const createMeet = async (req: Request, res: Response) => {
     const {hostId, title, scheduledAt, status} = req.body;
 
-    meetRepository.create({
+    await meetRepository.create({
         hostId,
         title,
         scheduledAt,
@@ -16,5 +16,10 @@ export const createMeet = async (req: Request, res: Response) => {
 
 export const getMeet = async(req: Request, res: Response) => {
     const {id} = req.params;
-    meetRepository.findById(id.toString());
+    let meet = await meetRepository.findById(id.toString());
+}
+
+export const getMeetByHostId = async(req: Request, res: Response) => {
+    const {hostId} = req.params;
+    let meets = await meetRepository.findByHost(hostId.toString());
 }

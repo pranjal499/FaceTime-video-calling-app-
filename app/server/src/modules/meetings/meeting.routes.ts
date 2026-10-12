@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import { WrapAsync } from '../../util/script/WrapAsync.js';
 import * as meetingController from './meeting.controller.js';
+import { get } from 'http';
 
 
 const meetRouter: Router = Router();
@@ -10,5 +11,10 @@ meetRouter.route('/create')
 
 meetRouter.route('/:id')
 .get(WrapAsync(meetingController.getMeet));
+
+meetRouter.route('/:hostId')
+.get(WrapAsync(meetingController.getMeetByHostId));
+
+meetRouter.route('/')
 
 export default meetRouter;
