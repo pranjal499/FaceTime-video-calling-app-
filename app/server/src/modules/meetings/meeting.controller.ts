@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express';
 import { MeetingRepository } from './meeting.repository.ts';
 import { createMeetingSchema, getMeetingSchema } from './meeting.schema.ts'
-import { postMessageToThread } from 'node:worker_threads';
 
 const meetRepository = new MeetingRepository;
 
@@ -39,23 +38,37 @@ export const getMeet = async (req: Request, res: Response) => {
 
     if (!result.success) {
         return res.send(400)
-        .json({
-            message: "Meeting id not valid",
-            errors: result.error.flatten
-        });
+            .json({
+                message: "Meeting id not valid",
+                errors: result.error.flatten
+            });
     }
 
-    const {id} = result.data;
+    const { id } = result.data;
     if (!id) return;
 
     const meeting = meetRepository.findById(id);
     return res.status(201)
-    .json({
-        data: meeting
-    });
+        .json({
+            data: meeting
+        });
 }
 
 export const getMeetByHostId = async (req: Request, res: Response) => {
-    const { hostId } = req.params;
-    let meets = await meetRepository.findByHost(hostId.toString());
+    const result = getMeetingSchema.safeParse(req.params);
+    if (!result.success) {
+        return res.status(400)
+            .json({
+                message: "The Host id not valid.",
+                error: result.error.flatten
+            });
+    }
+
+    const { id } = result.data;
+
+    const meetings = meetRepository.findByHost(id);
+    return res.status(2001)
+        .json({
+            data: meetings
+        });
 }
