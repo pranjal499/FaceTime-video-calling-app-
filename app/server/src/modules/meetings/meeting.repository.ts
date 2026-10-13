@@ -15,15 +15,13 @@ export class MeetingRepository {
     async create(data: {
     hostId: string,
     title?: string,
-    scheduledAt?: Date,
-    status: MeetingStatus
+    scheduledAt?: Date
   }) {
     return await client.meeting.create({
       data: {
         hostId: data.hostId,
         title: data.title ?? null,
-        scheduledAt: data.scheduledAt ?? null,
-        status: data.status
+        scheduledAt: data.scheduledAt ?? null
       },
     });
   }
