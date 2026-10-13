@@ -1,19 +1,11 @@
 import type { Request, Response } from 'express';
 import { MeetingRepository } from './meeting.repository.ts';
-import { createMeetingSchema } from './meeting.schema.ts'
+import { createMeetingSchema, getMeetingSchema } from './meeting.schema.ts'
+import { postMessageToThread } from 'node:worker_threads';
 
 const meetRepository = new MeetingRepository;
 
 export const createMeet = async (req: Request, res: Response) => {
-    // const {hostId, title, scheduledAt, status} = req.body;
-
-    // await meetRepository.create({
-    //     hostId,
-    //     title,
-    //     scheduledAt,
-    //     status
-    // })
-
     const result = createMeetingSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -43,8 +35,24 @@ export const createMeet = async (req: Request, res: Response) => {
 }
 
 export const getMeet = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    let meet = await meetRepository.findById(id.toString());
+    const result = getMeetingSchema.safeParse(req.params);
+
+    if (!result.success) {
+        return res.send(400)
+        .json({
+            message: "Meeting id not valid",
+            errors: result.error.flatten
+        });
+    }
+
+    const {id} = result.data;
+    if (!id) return;
+
+    const meeting = meetRepository.findById(id);
+    return res.status(201)
+    .json({
+        data: meeting
+    });
 }
 
 export const getMeetByHostId = async (req: Request, res: Response) => {
