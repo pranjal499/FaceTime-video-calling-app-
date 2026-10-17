@@ -14,9 +14,16 @@ export default class MeetingService {
 
         return await this.MeetingRepository.create({
             hostId,
-            status,
             ...(title !== undefined && {title}),
             ...(scheduledAt !== undefined && {scheduledAt}),
         })
+    }
+
+    async listMeetings(params: {
+        page: number,
+        limit: number,
+        status?: "SCHEDULED" | "ENDED" | "LIVE" | "CANCELLED"
+    }) {
+        return this.MeetingRepository.findMany(params);
     }
 }
