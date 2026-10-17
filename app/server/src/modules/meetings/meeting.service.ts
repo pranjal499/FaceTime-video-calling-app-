@@ -57,8 +57,7 @@ export default class MeetingService {
         if (meeting.status !== 'LIVE') throw new Error(`Cannot cancel a meeting with status: ${meeting.status}`);
 
         return this.MeetingRepository.update(id, {
-            status: 'CANCELLED',
-            endedAt: new Date()
+            status: 'CANCELLED'
         });
     }
 }
