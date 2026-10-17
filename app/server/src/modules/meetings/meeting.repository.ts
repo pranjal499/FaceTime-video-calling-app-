@@ -78,8 +78,8 @@ export class MeetingRepository {
 
     async update(id: string, data: {
         status: 'LIVE' | 'CANCELLED' | 'ENDED',
-        startedAt: Date,
-        endedAt: Date
+        startedAt?: Date,
+        endedAt?: Date
     }) {
         return client.meeting.update({
             where: {

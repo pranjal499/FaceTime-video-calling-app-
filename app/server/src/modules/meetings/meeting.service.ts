@@ -26,4 +26,15 @@ export default class MeetingService {
     }) {
         return this.MeetingRepository.findMany(params);
     }
+
+    async startMeeting(id: string) {
+        const meeting = await this.MeetingRepository.findById(id);
+        if (!meeting) throw new Error("Meeting not found");
+        if(meeting.status !== 'SCHEDULED') throw new Error(`Cannot start a meeting with status: ${meeting.status}`);
+
+        return this.MeetingRepository.update(id, {
+            status: 'LIVE',
+            startedAt: new Date()
+        })
+    }
 }
