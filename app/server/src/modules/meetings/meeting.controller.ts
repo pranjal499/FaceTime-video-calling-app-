@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { MeetingRepository } from './meeting.repository.ts';
 import { createMeetingSchema, getMeetingSchema } from './meeting.schema.ts'
+import 'dotenv/config';
 
 const meetRepository = new MeetingRepository;
 
@@ -27,9 +28,10 @@ export const createMeet = async (req: Request, res: Response) => {
         scheduledAt: scheduledAt ? new Date(scheduledAt) : undefined
     });
 
+
     return res.status(201)
         .json({
-            data: meeting
+            message: "meeting created successfully!"
         });
 }
 
@@ -67,7 +69,7 @@ export const getMeetByHostId = async (req: Request, res: Response) => {
     const { id } = result.data;
 
     const meetings = meetRepository.findByHost(id);
-    return res.status(2001)
+    return res.status(201)
         .json({
             data: meetings
         });
