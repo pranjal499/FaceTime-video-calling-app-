@@ -96,3 +96,19 @@ export const listMeetings = async (req: Request, res: Response) => {
             data: result
         });
 }
+
+export const startMeeting = async (req: Request, res: Response) => {
+    const parsed = getMeetingSchema.safeParse(req.params);
+
+    if (!parsed.success) return res.status(400)
+        .json({
+            message: "Invalid meeting id",
+            error: parsed.error.issues
+        });
+
+    const result = await meetServices.startMeeting(parsed.data.id);
+    return res.status(200)
+        .json({
+            data: result
+        });
+}
