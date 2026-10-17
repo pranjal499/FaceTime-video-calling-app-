@@ -13,18 +13,18 @@ export interface MeetingPayload {
 export class MeetingRepository {
 
     async create(data: {
-    hostId: string,
-    title?: string,
-    scheduledAt?: Date
-  }) {
-    return await client.meeting.create({
-      data: {
-        hostId: data.hostId,
-        title: data.title ?? null,
-        scheduledAt: data.scheduledAt ?? null
-      },
-    });
-  }
+        hostId: string,
+        title?: string,
+        scheduledAt?: Date
+    }) {
+        return await client.meeting.create({
+            data: {
+                hostId: data.hostId,
+                title: data.title ?? null,
+                scheduledAt: data.scheduledAt ?? null
+            },
+        });
+    }
 
     async findById(id: string) {
         return await client.meeting.findUnique({
@@ -61,8 +61,8 @@ export class MeetingRepository {
         limit: number,
         status?: "SCHEDULED" | "LIVE" | "ENDED" | "CANCELLED"
     }) {
-        const {page, limit, status} = params;
-        const where = status ? {status} : {};
+        const { page, limit, status } = params;
+        const where = status ? { status } : {};
         const [meetings, total] = await client.$transaction([
             client.meeting.findMany({
                 where,
@@ -72,7 +72,7 @@ export class MeetingRepository {
                     createdAt: 'asc'
                 }
             }),
-            client.meeting.count({where})
+            client.meeting.count({ where })
         ]);
 
         return {
@@ -82,5 +82,18 @@ export class MeetingRepository {
             limit,
             totalPages: Math.ceil(total / limit),
         };
+    }
+
+    async update(id: string, data: {
+        status: 'LIVE' | 'CANCELLED' | 'ENDED',
+        startedAt: Date,
+        endedAt: Date
+    }) {
+        return client.meeting.update({
+            where: {
+                id
+            },
+            data
+        })
     }
 }
