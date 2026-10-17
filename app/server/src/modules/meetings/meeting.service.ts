@@ -49,4 +49,16 @@ export default class MeetingService {
             endedAt: new Date()
         });
     }
+
+    async cancelMeeting(id: string) {
+        const meeting = await this.MeetingRepository.findById(id);
+        
+        if(!meeting) throw new Error("Meeting not found");
+        if (meeting.status !== 'LIVE') throw new Error(`Cannot cancel a meeting with status: ${meeting.status}`);
+
+        return this.MeetingRepository.update(id, {
+            status: 'CANCELLED',
+            endedAt: new Date()
+        });
+    }
 }
