@@ -1,9 +1,13 @@
 import type { Request, Response } from 'express';
 import { MeetingRepository } from './meeting.repository.ts';
-import { createMeetingSchema, getMeetingSchema } from './meeting.schema.ts'
+import { createMeetingSchema, getMeetingSchema, listMeetingsQuerySchema } from './meeting.schema.ts'
 import 'dotenv/config';
+import { parse } from 'dotenv';
+import MeetingService from './meeting.service.ts';
+import { Param } from '@prisma/client/runtime/client';
 
 const meetRepository = new MeetingRepository;
+const meetServices = new MeetingService((meetRepository));
 
 export const createMeet = async (req: Request, res: Response) => {
     const result = createMeetingSchema.safeParse(req.body);
@@ -72,5 +76,23 @@ export const getMeetByHostId = async (req: Request, res: Response) => {
     return res.status(201)
         .json({
             data: meetings
+        });
+}
+
+export const listMeetings = async (req: Request, res: Response) => {
+    const parsed = listMeetingsQuerySchema.safeParse(req.query);
+
+    if (!parsed.success) {
+        return res.status(400)
+            .json({
+                message: "Invalid query parameters",
+                error: parsed.error.issues
+            });
+    }
+
+    const result = await meetServices.listMeetings(parsed.data);
+    return res.status(200)
+        .json({
+            data: result
         });
 }
