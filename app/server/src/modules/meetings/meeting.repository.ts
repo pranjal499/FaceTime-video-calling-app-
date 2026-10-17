@@ -1,14 +1,6 @@
 import client from '../../infrastructure/database/prisma.js';
 import { MeetingStatus } from '../../generated/prisma/enums.js';
-
-export interface MeetingPayload {
-    hostId: string,
-    title: string,
-    scheduledAt: Date,
-    status: MeetingStatus,
-    startedAt: Date,
-    endedAt: Date,
-}
+import {MeetingPayload} from './meeting.types.ts'
 
 export class MeetingRepository {
 
