@@ -18,4 +18,7 @@ meetRouter.route('/:hostId')
 meetRouter.route('/')
 .get(WrapAsync(meetingController.listMeetings));
 
+meetRouter.route('/:id/start')
+.patch(WrapAsync(meetingController.startMeeting));
+
 export default meetRouter;
