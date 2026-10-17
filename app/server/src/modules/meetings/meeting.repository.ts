@@ -55,4 +55,32 @@ export class MeetingRepository {
             }
         })
     }
+
+    async findMany(params: {
+        page: number,
+        limit: number,
+        status?: "SCHEDULED" | "LIVE" | "ENDED" | "CANCELLED"
+    }) {
+        const {page, limit, status} = params;
+        const where = status ? {status} : {};
+        const [meetings, total] = await client.$transaction([
+            client.meeting.findMany({
+                where,
+                skip: (page - 1) * limit,
+                take: limit,
+                orderBy: {
+                    createdAt: 'asc'
+                }
+            }),
+            client.meeting.count({where})
+        ]);
+
+        return {
+            meetings,
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+        };
+    }
 }
