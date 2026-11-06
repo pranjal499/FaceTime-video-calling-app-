@@ -12,6 +12,6 @@ export default defineConfig({
 
   //@ts-ignore
   datasource: {
-    url: env('DIRECT_URL'),
+    url: env('DIRECT_SUPABASE_URL'),
   },
 });
