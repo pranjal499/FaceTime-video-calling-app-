@@ -25,7 +25,7 @@ enum ParticipantRole {
 }
 
 model User {
-  id                String    @id   @db.Uuid  @default(uuid())
+  id                String    @id   @db.Uuid  
   username          String?   @unique
   displayName       String?   @map("display_name")
   avatarUrl         String?   @map("avatar_url")
