@@ -26,8 +26,8 @@ enum ParticipantRole {
 
 model User {
   id                String    @id   @db.Uuid  @default(uuid())
-  username          String    @unique
-  displayName       String    @map("display_name")
+  username          String?   @unique
+  displayName       String?   @map("display_name")
   avatarUrl         String?   @map("avatar_url")
 
   createdAt         DateTime  @default(now()) @map("created_at")
